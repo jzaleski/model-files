@@ -82,20 +82,20 @@ TEMP="0.5" \
 ```
 
 **Common Variables:**
-- `MODEL_VERSION`: Model version suffix (e.g., "4.7-Flash", "120b", "Qwen-Coder-Next")
-- `QUANT`: Quantization level (4-8, default: 5)
-- `TEMP`: Temperature setting (default: 0.7 for coder, 1.0 for coder-experimental and 1.0 for advisor)
-- `PORT`: Server port (default: 8081 for coder, 8082 for advisor)
-- `CTX_SIZE`: Context window size (default: 32768 for coder, 65536 for coder-experimental and 16384 for advisor)
-- `N_GPU_LAYERS`: GPU layers (-1 for all)
-- `THREADS`: Number of CPU threads (default: 32)
-- `MIN_P`: Minimum p value for nucleus sampling
-- `TOP_K`: Top-k sampling value
-- `REPEAT_PENALTY`: Repetition penalty
-- `FLASH_ATTN`: Enable flash attention (default: on)
-- `ALIAS`: Model alias for llama-server
-- `HOST`: Host address (default: 0.0.0.0)
-- `PARAMETERS`: Quantization parameters suffix (default: M)
+- `MODEL_VERSION`: Specifies which model variant to load from the model repository
+- `QUANT`: Determines the compression level of the model (higher values reduce file size and memory usage)
+- `TEMP`: Controls randomness and creativity in model responses (lower values produce more deterministic outputs)
+- `PORT`: Network port for the server to listen on for incoming connections
+- `CTX_SIZE`: Maximum number of tokens the model can process in a single context window
+- `N_GPU_LAYERS`: Number of model layers to offload to GPU for accelerated inference
+- `THREADS`: Number of CPU threads allocated for parallel model processing
+- `MIN_P`: Threshold for nucleus sampling to exclude low-probability tokens
+- `TOP_K`: Limit on the number of most likely tokens to consider during generation
+- `REPEAT_PENALTY`: Factor applied to penalize repeated tokens to reduce repetition in output
+- `FLASH_ATTN`: Boolean flag to enable flash attention mechanism for faster processing on supported hardware
+- `ALIAS`: Custom name to register the model with llama-server
+- `HOST`: Network interface address to bind the server to (0.0.0.0 for all interfaces)
+- `PARAMETERS`: Suffix appended to the model name for quantization specification
 
 ### Running Open WebUI
 
