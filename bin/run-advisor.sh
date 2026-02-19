@@ -16,5 +16,6 @@ llama-server \
   --mlock \
   --n-gpu-layers ${N_GPU_LAYERS:-"-1"} \
   --temp ${TEMP:-"1.0"} \
+  --threads ${THREADS:-"32"} \
   --top-k ${TOP_K:-"0.0"} \
   --top-p ${TOP_P:-"1.0"};
