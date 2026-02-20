@@ -21,18 +21,18 @@ The system has been migrated from Ollama Modelfiles to llama-server binaries for
 Runs a model for coding assistance using GLM-4.7-Flash for rapid responses.
 
 ### run-coder-experimental.sh
-Runs a model for coding assistance using Qwen-Coder-Next for higher quality responses.
+Runs a model for coding assistance using Qwen3-Coder-Next for higher quality responses.
 
 **Default Configuration:**
-- Model: `unsloth/GLM-4.7-Flash-GGUF:Q5_K_M` (fast mode)
-- Alias: `jzaleski/coder`
+- Model: `Qwen/Qwen3-Coder-Next-GGUF:Q5_K_M`
+- Alias: `jzaleski/coder-experimental`
 - Port: 8081
-- Context size: 32768 tokens
-- Temperature: 0.7
+- Context size: 65536 tokens
+- Temperature: 1.0
 - Top P: 0.95
-- Min P: 0.01 (fast mode)
+- Top K: 40
 - Threads: 32
-- GPU layers: All
+- GPU layers: 99
 
 ### run-advisor.sh
 Runs a GPT-OSS model for general advising.
@@ -44,8 +44,10 @@ Runs a GPT-OSS model for general advising.
 - Context size: 16384 tokens
 - Temperature: 1.0
 - Top P: 1.0
+- Top K: 0 (disabled)
+- Min P: 0.0
 - Threads: 32
-- GPU layers: All
+- GPU layers: 99
 
 ### run-open-webui.sh
 Starts Open WebUI interface connected to the advisor model.
@@ -87,10 +89,10 @@ TEMP="0.5" \
 - `TEMP`: Controls randomness and creativity in model responses (lower values produce more deterministic outputs)
 - `PORT`: Network port for the server to listen on for incoming connections
 - `CTX_SIZE`: Maximum number of tokens the model can process in a single context window
-- `N_GPU_LAYERS`: Number of model layers to offload to GPU for accelerated inference
+- `N_GPU_LAYERS`: Number of model layers to offload to GPU for accelerated inference (default: 99)
 - `THREADS`: Number of CPU threads allocated for parallel model processing
 - `MIN_P`: Threshold for nucleus sampling to exclude low-probability tokens
-- `TOP_K`: Limit on the number of most likely tokens to consider during generation
+- `TOP_K`: Limit on the number of most likely tokens to consider during generation (0 disables top-k sampling)
 - `REPEAT_PENALTY`: Factor applied to penalize repeated tokens to reduce repetition in output
 - `FLASH_ATTN`: Boolean flag to enable flash attention mechanism for faster processing on supported hardware
 - `ALIAS`: Custom name to register the model with llama-server
@@ -162,13 +164,13 @@ Both the coder and advisor have been tuned with specific parameters:
 ┌─────────────────┐
 │    Coder Model  │ (Port 8081)
 │  GLM-4.7-Flash  │
-│  or Qwen3.5     │
+│  or Qwen3-Coder │
 └─────────────────┘
 ```
 
 ## Performance Tips
 
-- Enable GPU layers for faster inference: `N_GPU_LAYERS=-1`
+- GPU acceleration is enabled by default with 99 layers offloaded
 - Use quantization level 4-5 for balance between speed and quality
 - Adjust context size based on your use case
 - Enable flash attention for better performance on supported hardware
@@ -200,11 +202,11 @@ Both the coder and advisor have been tuned with specific parameters:
 
 **Quality issues:**
 - For coding tasks, use run-coder.sh with GLM-4.7-Flash
-- For more complex reasoning, use run-coder-experimental.sh with Qwen-Coder-Next
+- For more complex reasoning, use run-coder-experimental.sh with Qwen3-Coder-Next
 - Adjust MIN_P and TOP_K values based on desired response style
 - For more creative responses, increase TEMP and TOP_P on advisor model
 
 **Memory issues:**
 - Reduce CTX_SIZE for smaller context windows
 - Use lower quantization (Q4 instead of Q5)
-- Set N_GPU_LAYERS to a specific value instead of -1
+- Set N_GPU_LAYERS to a specific value instead of 99
