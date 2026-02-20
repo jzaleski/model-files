@@ -20,6 +20,20 @@ The system has been migrated from Ollama Modelfiles to llama-server binaries for
 ### run-coder.sh
 Runs a model for coding assistance using GLM-4.7-Flash for rapid responses.
 
+**Default Configuration:**
+- Model: `unsloth/GLM-4.7-Flash-GGUF:Q5_K_M`
+- Alias: `jzaleski/coder`
+- Port: 8081
+- Context size: 131072 tokens
+- Temperature: 0.7
+- Top P: 0.95
+- Top K: 40
+- Min P: 0.01
+- Threads: 32
+- GPU layers: 99
+- Flash attention: enabled
+- Repeat penalty: 1.0
+
 ### run-coder-experimental.sh
 Runs a model for coding assistance using Qwen3-Coder-Next for higher quality responses.
 
