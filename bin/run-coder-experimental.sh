@@ -11,7 +11,6 @@ llama-server \
   --fit ${FIT:-"on"} \
   --flash-attn ${FLASH_ATTN:-"on"} \
   --jinja \
-  --kv-unified \
   --min-p ${MIN_P:-"0.01"} \
   --n-gpu-layers ${N_GPU_LAYERS:-"99"} \
   --repeat-penalty ${REPEAT_PENALTY:-"1.0"} \

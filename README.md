@@ -21,13 +21,12 @@ The system has been migrated from Ollama Modelfiles to llama-server binaries for
 Runs a model for coding assistance using GLM-4.7-Flash for rapid responses.
 
 **Default Configuration:**
-- Model: `unsloth/GLM-4.7-Flash-GGUF:Q5_K_M`
+- Model: `unsloth/GLM-4.7-Flash-GGUF:Q8_0`
 - Alias: `jzaleski/coder`
 - Port: 8081
 - Context size: 131072 tokens
 - Temperature: 0.7
 - Top P: 0.95
-- Top K: 40
 - Min P: 0.01
 - Threads: 32
 - GPU layers: 99
@@ -55,14 +54,14 @@ Runs a model for coding assistance using Qwen3-Coder-Next for higher quality res
 Runs a GPT-OSS model for general advising.
 
 **Default Configuration:**
-- Model: `unsloth/gpt-oss-120b-GGUF:Q5_K_M`
+- Model: `unsloth/gpt-oss-120b-GGUF:Q8_0`
 - Alias: `jzaleski/advisor`
 - Port: 8082
-- Context size: 16384 tokens
+- Context size: 131072 tokens
 - Temperature: 1.0
 - Top P: 1.0
-- Top K: 0.0 (disabled)
-- Min P: 0.0
+- Top K: 0 (disabled)
+- Min P: 0 (disabled)
 - Threads: 32
 - GPU layers: 99
 - Flash attention: enabled
@@ -111,13 +110,12 @@ TEMP="0.5" \
 - `N_GPU_LAYERS`: Number of model layers to offload to GPU for accelerated inference (default: 99)
 - `THREADS`: Number of CPU threads allocated for parallel model processing
 - `MIN_P`: Threshold for nucleus sampling to exclude low-probability tokens
-- `TOP_K`: Limit on the number of most likely tokens to consider during generation (0 disables top-k sampling)
+- `TOP_K`: Limit on the number of most likely tokens to consider during generation (0 or 0.0 disables top-k sampling)
 - `REPEAT_PENALTY`: Factor applied to penalize repeated tokens to reduce repetition in output
 - `FLASH_ATTN`: Boolean flag to enable flash attention mechanism for faster processing on supported hardware
 - `ALIAS`: Custom name to register the model with llama-server
 - `HOST`: Network interface address to bind the server to (0.0.0.0 for all interfaces)
 - `FIT`: Enable model fit optimization (default: on)
-- `KV_UNIFIED`: Enable unified KV cache (default: on)
 
 ### Running Open WebUI
 
@@ -153,14 +151,15 @@ The `model-files` directory contains additional model configurations and utiliti
 
 ### Model Family Support
 The system supports multiple model families with adaptive configurations:
-- **GLM**: Optimized for coding assistance with fast inference (GLM-4.7-Flash)
-- **Qwen**: Higher quality models for complex reasoning (Qwen3-Coder-Next)
-- **GPT-OSS**: General purpose advising models (gpt-oss-120b)
+- **GLM**: Optimized for coding assistance with fast inference (GLM-4.7-Flash, Q8_0 quantization)
+- **Qwen**: Higher quality models for complex reasoning (Qwen3-Coder-Next, Q8_0 quantization)
+- **GPT-OSS**: General purpose advising models (gpt-oss-120b, Q8_0 quantization)
 
 ### Persona Tuning
-Both the coder and advisor have been tuned with specific parameters:
-- Coder: Balanced temperature (0.7), high top-p (0.95), low min-p (0.01), repeat penalty (1.0)
-- Advisor: High temperature (1.0), maximum top-p (1.0), min-p (0.0), top-k (0.0 disabled) for creative responses
+All models have been tuned with specific parameters:
+- Coder: Balanced temperature (0.7), high top-p (0.95), min-p (0 disabled), top-k (0 disabled), repeat penalty (1.0)
+- Coder-Experimental: Higher temperature (1.0), top-k (40), high top-p (0.95), min-p (0.01), repeat penalty (1.0) for more creative coding assistance
+- Advisor: High temperature (1.0), maximum top-p (1.0), min-p (0 disabled), top-k (0 disabled) for creative responses
 
 ## Architecture
 
@@ -223,7 +222,7 @@ Both the coder and advisor have been tuned with specific parameters:
 **Quality issues:**
 - For coding tasks, use run-coder.sh with GLM-4.7-Flash
 - For more complex reasoning, use run-coder-experimental.sh with Qwen3-Coder-Next
-- Adjust MIN_P and TOP_K values based on desired response style
+- Adjust MIN_P and TOP_K values based on desired response style (0 or 0.0 disables these sampling methods)
 - For more creative responses, increase TEMP and TOP_P on advisor model
 
 **Memory issues:**

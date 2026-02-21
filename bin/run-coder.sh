@@ -3,7 +3,7 @@
 set -e;
 
 llama-server \
-  -hf "${MODEL_PROVIDER:-"unsloth"}/${MODEL_NAME:-"GLM-4.7-Flash"}-GGUF:${MODEL_QUANTIZATION:-"Q5_K_M"}" \
+  -hf "${MODEL_PROVIDER:-"unsloth"}/${MODEL_NAME:-"GLM-4.7-Flash"}-GGUF:${MODEL_QUANTIZATION:-"Q8_0"}" \
   --alias ${ALIAS:-"jzaleski/coder"} \
   --host ${HOST:-"0.0.0.0"} \
   --port ${PORT:-"8081"} \
@@ -11,7 +11,6 @@ llama-server \
   --fit ${FIT:-"on"} \
   --flash-attn ${FLASH_ATTN:-"on"} \
   --jinja \
-  --kv-unified \
   --min-p ${MIN_P:-"0.01"} \
   --n-gpu-layers ${N_GPU_LAYERS:-"99"} \
   --repeat-penalty ${REPEAT_PENALTY:-"1.0"} \
