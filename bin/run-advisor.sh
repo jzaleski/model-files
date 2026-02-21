@@ -3,7 +3,7 @@
 set -e;
 
 llama-server \
-  -hf "unsloth/gpt-oss-${MODEL_VERSION:-"120b"}-GGUF:Q${QUANT:-5}_K_${PARAMETERS:-"M"}" \
+  -hf "${MODEL_PROVIDER:-"unsloth"}/${MODEL_NAME:-"gpt-oss-120b"}-GGUF:${MODEL_QUANTIZATION:-"Q5_K_M"}" \
   --alias ${ALIAS:-"jzaleski/advisor"} \
   --host ${HOST:-"0.0.0.0"} \
   --port ${PORT:-"8082"} \

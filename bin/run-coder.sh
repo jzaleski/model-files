@@ -3,7 +3,7 @@
 set -e;
 
 llama-server \
-  -hf "unsloth/GLM-${MODEL_VERSION:-"4.7-Flash"}-GGUF:Q${QUANT:-5}_K_${PARAMETERS:-"M"}" \
+  -hf "${MODEL_PROVIDER:-"unsloth"}/${MODEL_NAME:-"GLM-4.7-Flash"}-GGUF:${MODEL_QUANTIZATION:-"Q5_K_M"}" \
   --alias ${ALIAS:-"jzaleski/coder"} \
   --host ${HOST:-"0.0.0.0"} \
   --port ${PORT:-"8081"} \

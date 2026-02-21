@@ -3,7 +3,7 @@
 set -e;
 
 llama-server \
-  -hf "Qwen/${MODEL_VERSION:-"Qwen3-Coder-Next"}-GGUF:Q${QUANT:-5}_K_${PARAMETERS:-"M"}" \
+  -hf "${MODEL_PROVIDER:-"unsloth"}/${MODEL_NAME:-"Qwen3-Coder-Next"}-GGUF:${MODEL_QUANTIZATION:-"Q8_0"}" \
   --alias ${ALIAS:-"jzaleski/coder-experimental"} \
   --host ${HOST:-"0.0.0.0"} \
   --port ${PORT:-"8081"} \
@@ -12,6 +12,7 @@ llama-server \
   --flash-attn ${FLASH_ATTN:-"on"} \
   --jinja \
   --kv-unified \
+  --min-p ${MIN_P:-"0.01"} \
   --n-gpu-layers ${N_GPU_LAYERS:-"99"} \
   --repeat-penalty ${REPEAT_PENALTY:-"1.0"} \
   --temp ${TEMP:-"1.0"} \
