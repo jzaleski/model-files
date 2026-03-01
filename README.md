@@ -27,11 +27,13 @@ Runs a model for coding assistance using GLM-4.7-Flash for rapid responses.
 - Context size: 131072 tokens
 - Temperature: 0.7
 - Top P: 0.95
+- Top K: 20
 - Min P: 0.01
 - Threads: 32
 - GPU layers: 99
 - Flash attention: enabled
 - Repeat penalty: 1.0
+- Model fit: enabled
 
 ### run-coder-experimental.sh
 Runs a model for coding assistance using Qwen3-Coder-Next for higher quality responses.
@@ -43,12 +45,13 @@ Runs a model for coding assistance using Qwen3-Coder-Next for higher quality res
 - Context size: 262144 tokens
 - Temperature: 1.0
 - Top P: 0.95
-- Top K: 40
+- Top K: 20
 - Min P: 0.01
 - Threads: 32
 - GPU layers: 99
 - Flash attention: enabled
 - Repeat penalty: 1.0
+- Model fit: enabled
 
 ### run-advisor.sh
 Runs a GPT-OSS model for general advising.
@@ -65,6 +68,7 @@ Runs a GPT-OSS model for general advising.
 - Threads: 32
 - GPU layers: 99
 - Flash attention: enabled
+- Model fit: enabled
 
 ### run-open-webui.sh
 Starts Open WebUI interface connected to the advisor model.
@@ -112,10 +116,10 @@ TEMP="0.5" \
 - `MIN_P`: Threshold for nucleus sampling to exclude low-probability tokens
 - `TOP_K`: Limit on the number of most likely tokens to consider during generation (0 or 0.0 disables top-k sampling)
 - `REPEAT_PENALTY`: Factor applied to penalize repeated tokens to reduce repetition in output
-- `FLASH_ATTN`: Boolean flag to enable flash attention mechanism for faster processing on supported hardware
 - `ALIAS`: Custom name to register the model with llama-server
 - `HOST`: Network interface address to bind the server to (0.0.0.0 for all interfaces)
 - `FIT`: Enable model fit optimization (default: on)
+- `FLASH_ATTN`: Boolean flag to enable flash attention mechanism for faster processing on supported hardware
 
 ### Running Open WebUI
 
