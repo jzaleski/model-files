@@ -16,5 +16,5 @@ llama-server \
   --repeat-penalty ${REPEAT_PENALTY:-"1.0"} \
   --temp ${TEMP:-"1.0"} \
   --threads ${THREADS:-"32"} \
-  --top-k ${TOP_K:-"40"} \
+  --top-k ${TOP_K:-"20"} \
   --top-p ${TOP_P:-"0.95"};
