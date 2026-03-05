@@ -99,12 +99,21 @@ Runs a GPT-OSS model for general advising. Supports both local and server modes 
 - Flash attention: enabled
 
 ### run-open-webui.sh
-Starts Open WebUI interface using Docker.
+Starts Open WebUI interface using Docker. Supports both local and server modes via `--server` flag.
 
-**Default Configuration:**
+**Local Mode Defaults:**
 - Port: 8080
+- WEBUI Auth: disabled
 - Uses advisor model on port 8082
-- Custom advisor port via `ADVISOR_MODEL_PORT` env var
+
+**Server Mode Defaults:**
+- Port: 8080
+- WEBUI Auth: enabled
+- Uses advisor model on port 8082
+
+**Environment Variables:**
+- `WEBUI_AUTH`: Enable authentication in WebUI (default: False)
+- `ADVISOR_MODEL_PORT`: Custom advisor model port (default: 8082)
 
 ## Usage
 
@@ -123,8 +132,11 @@ Starts Open WebUI interface using Docker.
 # Run advisor model (server mode)
 ./bin/run-advisor.sh --server
 
-# Start Open WebUI
+# Start Open WebUI (local mode, auth disabled)
 ./bin/run-open-webui.sh
+
+# Start Open WebUI (server mode, auth enabled)
+./bin/run-open-webui.sh --server
 ```
 
 ## Docker Compose

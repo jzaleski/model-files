@@ -8,7 +8,7 @@ services:
     environment:
       OPENAI_API_BASE_URL: "http://host.docker.internal:${ADVISOR_MODEL_PORT:-8082}/v1"
       OPENAI_API_KEY: "sk-local"
-      WEBUI_AUTH: "False"
+      WEBUI_AUTH: "${WEBUI_AUTH:-False}"
     volumes:
       - open-webui:/app/backend/data
 
