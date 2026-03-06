@@ -14,11 +14,12 @@ run_local() {
     --jinja \
     --n-gpu-layers "${N_GPU_LAYERS:-"99"}" \
     --threads "${THREADS:-"4"}" \
-    --min-p "${MIN_P:-"0.01"}" \
-    --repeat-penalty "${REPEAT_PENALTY:-"1.0"}" \
-    --temp "${TEMP:-"1.0"}" \
-    --top-k "${TOP_K:-"20"}" \
-    --top-p "${TOP_P:-"0.95"}";
+    --min-p ${MIN_P:-"0.0"} \
+    --presence-penalty "${PRESENCE_PENALTY:-"0.0"}" \
+    --repeat-penalty ${REPEAT_PENALTY:-"1.0"} \
+    --temp ${TEMP:-"0.6"} \
+    --top-k ${TOP_K:-"20"} \
+    --top-p ${TOP_P:-"0.95"};
 }
 
 run_server() {
@@ -33,9 +34,10 @@ run_server() {
     --jinja \
     --n-gpu-layers ${N_GPU_LAYERS:-"99"} \
     --threads ${THREADS:-"32"} \
-    --min-p ${MIN_P:-"0.01"} \
+    --min-p ${MIN_P:-"0.0"} \
+    --presence-penalty "${PRESENCE_PENALTY:-"0.0"}" \
     --repeat-penalty ${REPEAT_PENALTY:-"1.0"} \
-    --temp ${TEMP:-"1.0"} \
+    --temp ${TEMP:-"0.6"} \
     --top-k ${TOP_K:-"20"} \
     --top-p ${TOP_P:-"0.95"};
 }

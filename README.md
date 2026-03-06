@@ -30,6 +30,7 @@ You can override default settings via environment variables. The same variables 
 - `THREADS`: Number of CPU threads allocated for parallel model processing (default: 4 for local, 32 for server)
 - `MIN_P`: Threshold for nucleus sampling to exclude low-probability tokens
 - `TOP_K`: Limit on the number of most likely tokens to consider during generation (0 or 0.0 disables top-k sampling)
+- `PRESENCE_PENALTY`: Factor applied to penalize repeated tokens to reduce repetition in output
 - `REPEAT_PENALTY`: Factor applied to penalize repeated tokens to reduce repetition in output
 - `ALIAS`: Custom name to register the model with llama-server
 - `HOST`: Network interface address to bind the server to (127.0.0.1 for local, 0.0.0.0 for server)
@@ -39,7 +40,7 @@ You can override default settings via environment variables. The same variables 
 ## Components
 
 ### run-coder.sh
-Runs a model for coding assistance. Supports both local and server modes via `--server` flag.
+Runs the default model for coding assistance. Supports both local and server modes via `--server` flag.
 
 **Local Mode Defaults:**
 - Model: `unsloth/Qwen3.5-9B-GGUF:Q8_0`
@@ -47,8 +48,10 @@ Runs a model for coding assistance. Supports both local and server modes via `--
 - Host: 127.0.0.1
 - Port: 8081
 - Context size: 262144 tokens
-- Temperature: 1.0
-- Min P: 0.01
+- Temperature: 0.6
+- Min P: 0.0
+- Top K: 20
+- Presence penalty: 0.0
 - Repeat penalty: 1.0
 - Threads: 4
 - GPU layers: 99
@@ -60,15 +63,17 @@ Runs a model for coding assistance. Supports both local and server modes via `--
 - Host: 0.0.0.0
 - Port: 8081
 - Context size: 262144 tokens
-- Temperature: 1.0
-- Min P: 0.01
+- Temperature: 0.6
+- Min P: 0.0
+- Top K: 20
+- Presence penalty: 0.0
 - Repeat penalty: 1.0
 - Threads: 32
 - GPU layers: 99
 - Flash attention: enabled
 
 ### run-advisor.sh
-Runs a GPT-OSS model for general advising. Supports both local and server modes via `--server` flag.
+Runs the default model for general advising. Supports both local and server modes via `--server` flag.
 
 **Local Mode Defaults:**
 - Model: `unsloth/gpt-oss-20b-GGUF:Q8_0`
@@ -94,6 +99,39 @@ Runs a GPT-OSS model for general advising. Supports both local and server modes 
 - Top K: 0 (disabled)
 - Min P: 0 (disabled)
 - Top P: 1.0
+- Threads: 32
+- GPU layers: 99
+- Flash attention: enabled
+
+### run-advisor-experimental.sh
+Runs an experimental advisor model. Supports both local and server modes via `--server` flag.
+
+**Local Mode Defaults:**
+- Model: `unsloth/Qwen3.5-9B-GGUF:Q8_0`
+- Alias: `jzaleski/advisor-experimental`
+- Host: 127.0.0.1
+- Port: 8082
+- Context size: 131072 tokens
+- Temperature: 1.0
+- Min P: 0.0
+- Top K: 20
+- Presence penalty: 1.5
+- Repeat penalty: 1.0
+- Threads: 4
+- GPU layers: 99
+- Flash attention: enabled
+
+**Server Mode Defaults:**
+- Model: `unsloth/Qwen3.5-122B-A10B-GGUF:Q8_0`
+- Alias: `jzaleski/advisor-experimental`
+- Host: 0.0.0.0
+- Port: 8082
+- Context size: 131072 tokens
+- Temperature: 1.0
+- Min P: 0.0
+- Top K: 20
+- Presence penalty: 1.5
+- Repeat penalty: 1.0
 - Threads: 32
 - GPU layers: 99
 - Flash attention: enabled
@@ -131,6 +169,12 @@ Starts Open WebUI interface using Docker. Supports both local and server modes v
 
 # Run advisor model (server mode)
 ./bin/run-advisor.sh --server
+
+# Run advisor experimental model (local mode)
+./bin/run-advisor-experimental.sh
+
+# Run advisor experimental model (server mode)
+./bin/run-advisor-experimental.sh --server
 
 # Start Open WebUI (local mode, auth disabled)
 ./bin/run-open-webui.sh
@@ -215,5 +259,5 @@ docker compose -f docker-compose-files/open-webui.yml down
 
 **Memory issues:**
 - Reduce `CTX_SIZE` for smaller context windows
-- Use lower quantization (Q4 instead of Q5)
+- Use lower quantization (Q4/5 instead of Q8)
 - Set `N_GPU_LAYERS` to a specific value instead of 99
