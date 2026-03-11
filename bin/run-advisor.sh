@@ -4,38 +4,34 @@ set -e;
 
 run_local() {
   llama-server \
-    -hf "${MODEL_PROVIDER:-"unsloth"}/${MODEL_NAME:-"gpt-oss-20b"}-GGUF:${MODEL_QUANTIZATION:-"Q8_0"}" \
+    -hf "${MODEL_PROVIDER:-"unsloth"}/${MODEL_NAME:-"gpt-oss-20b"}-GGUF:${MODEL_QUANTIZATION:-"Q4_K_M"}" \
     --alias "${ALIAS:-"jzaleski/advisor"}" \
     --host "${HOST:-"127.0.0.1"}" \
     --port "${PORT:-"8082"}" \
-    --ctx-size "${CTX_SIZE:-"131072"}" \
-    --fit "${FIT:-"on"}" \
+    --ctx-size "${CTX_SIZE:-"65536"}" \
     --flash-attn "${FLASH_ATTN:-"on"}" \
     --jinja \
-    --min-p "${MIN_P:-"0"}" \
-    --n-gpu-layers "${N_GPU_LAYERS:-"99"}" \
-    --threads "${THREADS:-"4"}" \
+    --min-p "${MIN_P:-"0.0"}" \
+    --repeat-penalty ${REPEAT_PENALTY:-"1.0"} \
     --temp "${TEMP:-"1.0"}" \
-    --top-k "${TOP_K:-"0"}" \
+    --top-k "${TOP_K:-"0.0"}" \
     --top-p "${TOP_P:-"1.0"}";
 }
 
 run_server() {
   llama-server \
-    -hf "${MODEL_PROVIDER:-"unsloth"}/${MODEL_NAME:-"gpt-oss-120b"}-GGUF:${MODEL_QUANTIZATION:-"Q8_0"}" \
+    -hf "${MODEL_PROVIDER:-"unsloth"}/${MODEL_NAME:-"Qwen3.5-122B-A10B"}-GGUF:${MODEL_QUANTIZATION:-"Q5_K_M"}" \
     --alias "${ALIAS:-"jzaleski/advisor"}" \
     --host "${HOST:-"0.0.0.0"}" \
     --port "${PORT:-"8082"}" \
-    --ctx-size "${CTX_SIZE:-"131072"}" \
-    --fit "${FIT:-"on"}" \
+    --ctx-size "${CTX_SIZE:-"65536"}" \
     --flash-attn "${FLASH_ATTN:-"on"}" \
     --jinja \
-    --min-p "${MIN_P:-"0"}" \
-    --n-gpu-layers "${N_GPU_LAYERS:-"99"}" \
-    --threads "${THREADS:-"32"}" \
+    --min-p "${MIN_P:-"0.0"}" \
+    --repeat-penalty ${REPEAT_PENALTY:-"1.0"} \
     --temp "${TEMP:-"1.0"}" \
-    --top-k "${TOP_K:-"0"}" \
-    --top-p "${TOP_P:-"1.0"}";
+    --top-k "${TOP_K:-"20"}" \
+    --top-p "${TOP_P:-"0.95"}";
 }
 
 # Default to local mode if no flag provided
