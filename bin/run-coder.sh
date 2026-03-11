@@ -8,9 +8,10 @@ run_local() {
     --alias "${ALIAS:-"jzaleski/coder"}" \
     --host "${HOST:-"127.0.0.1"}" \
     --port "${PORT:-"8081"}" \
-    --ctx-size "${CTX_SIZE:-"65536"}" \
     --flash-attn "${FLASH_ATTN:-"on"}" \
     --jinja \
+    --n-gpu-layers "${N_GPU_LAYERS:-"-1"}" \
+    --ctx-size "${CTX_SIZE:-"65536"}" \
     --min-p ${MIN_P:-"0.01"} \
     --repeat-penalty ${REPEAT_PENALTY:-"1.0"} \
     --temp ${TEMP:-"1.0"} \
@@ -24,9 +25,10 @@ run_server() {
     --alias ${ALIAS:-"jzaleski/coder"} \
     --host ${HOST:-"0.0.0.0"} \
     --port ${PORT:-"8081"} \
-    --ctx-size ${CTX_SIZE:-"65536"} \
     --flash-attn ${FLASH_ATTN:-"on"} \
     --jinja \
+    --n-gpu-layers "${N_GPU_LAYERS:-"-1"}" \
+    --ctx-size ${CTX_SIZE:-"65536"} \
     --min-p ${MIN_P:-"0.01"} \
     --repeat-penalty ${REPEAT_PENALTY:-"1.0"} \
     --temp ${TEMP:-"1.0"} \

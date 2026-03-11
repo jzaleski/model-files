@@ -5,9 +5,15 @@ Guidelines for agentic coding tools in this repository.
 ## Project Overview
 
 Shell scripts and Docker configurations for running local LLMs using `llama-server`.
-Supports coding assistance and general advising models.
+Supports coding assistance (GLM-4.7-Flash/Qwen3-Coder-Next) and general advising (gpt-oss-20b/Qwen3.5-122B-A10B).
 
 **No code repositories** - utilities/config only.
+
+**Changes in commit 647b2438:**
+- Removed `run-advisor-experimental.sh` (replaced with updated `run-advisor.sh`)
+- Updated coder model: GLM-4.7-Flash (local), Qwen3-Coder-Next (server)
+- Updated advisor model: gpt-oss-20b (local), Qwen3.5-122B-A10B (server)
+- Standardized context size to 65536, reduced quantization to Q4_K_M/Q5_K_M
 
 ---
 
@@ -66,20 +72,20 @@ Test with: `bash -x ./bin/run-coder.sh`
 | Variable | Description | Default (Local) | Default (Server) |
 |----------|-------------|-----------------|------------------|
 | `MODEL_PROVIDER` | HuggingFace org | unsloth | unsloth |
-| `MODEL_NAME` | Model name (no -GGUF) | Qwen3.5-9B | Qwen3.5-122B-A10B |
-| `MODEL_QUANTIZATION` | Quantization level | Q8_0 | Q8_0 |
+| `MODEL_NAME` | Model name (no -GGUF) | GLM-4.7-Flash | Qwen3.5-122B-A10B |
+| `MODEL_QUANTIZATION` | Quantization level | Q4_K_M | Q5_K_M |
 | `TEMP` | Sampling temperature | 1.0 | 1.0 |
 | `PORT` | Network port | 8081/8082 | 8081/8082 |
-| `CTX_SIZE` | Context window | 262144/131072 | 262144/131072 |
-| `N_GPU_LAYERS` | GPU layer count | 99 | 99 |
-| `THREADS` | CPU threads | 4 | 32 |
-| `MIN_P` | Nucleus min | 0.0 | 0.0 |
-| `TOP_K` | Top-K limit | 20 | 20 |
-| `PRESENCE_PENALTY` | Presence penalty | 0.0/1.5 | 0.0/1.5 |
+| `CTX_SIZE` | Context window | 65536 | 65536 |
+
+| `MIN_P` | Nucleus min | 0.01/0.0 | 0.01/0.0 |
+| `TOP_K` | Top-K limit | 40/0.0 | 40/20 |
+| `PRESENCE_PENALTY` | Presence penalty | removed | removed |
 | `REPEAT_PENALTY` | Repeat penalty | 1.0 | 1.0 |
+| `TOP_P` | Nucleus top-p | 0.95/1.0 | 0.95/0.95 |
 | `ALIAS` | Model alias | jzaleski/{coder,advisor} | jzaleski/{coder,advisor} |
 | `HOST` | Host address | 127.0.0.1 | 0.0.0.0 |
-| `FIT` | Fit optimization | on | on |
+
 | `FLASH_ATTN` | Flash attention | on | on |
 
 ---
@@ -94,19 +100,20 @@ Test with: `bash -x ./bin/run-coder.sh`
 │  │  Client   │  │
 │  └─────┬─────┘  │
 └────────┼────────┘
-         │
-         ▼
+          │
+          ▼
 ┌─────────────────┐
 │  Advisor Model  │ (Port 8082)
-│  GPT-OSS 120B   │
+│  gpt-oss-20b /  │
+│  Qwen3.5-122B   │
 └─────────────────┘
 ```
 
 ```
 ┌─────────────────┐
 │   Coder Model   │ (Port 8081)
-│     Qwen3.5     │
-│  9B / 122B-A10B │
+│  GLM-4.7-Flash  │
+│  Qwen3-Coder-Next│
 └─────────────────┘
 ```
 
@@ -114,10 +121,9 @@ Test with: `bash -x ./bin/run-coder.sh`
 
 ## Performance
 
-- GPU acceleration enabled by default (99 layers offloaded)
+- GPU acceleration enabled with flash attention by default
 - Use Q4-Q6 quantization for memory-constrained environments
-- Adjust `THREADS` based on CPU cores
-- Enable flash attention for supported hardware
+- Context size standardized to 65536 tokens
 
 ## Docker Compose
 
