@@ -21,20 +21,19 @@ You can override default settings via environment variables. The same variables 
 
 **Common Variables:**
 - `MODEL_PROVIDER`: Provider/organization name for the model (default: unsloth)
-- `MODEL_NAME`: Name of the model to load (default varies by script and mode)
-- `MODEL_QUANTIZATION`: Full quantization specification (default: Q8_0)
-- `TEMP`: Controls randomness and creativity in model responses
-- `PORT`: Network port for the server to listen on for incoming connections
-- `CTX_SIZE`: Maximum number of tokens the model can process in a single context window (65536-262144)
-
-- `MIN_P`: Threshold for nucleus sampling to exclude low-probability tokens (0.0-1.0)
-- `TOP_K`: Limit on the number of most likely tokens to consider during generation (0 or 0.0 disables top-k sampling)
-- `REPEAT_PENALTY`: Factor applied to penalize repeated tokens (1.0 is no penalty)
-- `TOP_P`: Controls nucleus sampling - cumulative probability threshold for token selection (0.95 default)
-- `ALIAS`: Custom name to register the model with llama-server
-- `HOST`: Network interface address to bind the server to (127.0.0.1 or 0.0.0.0)
-- `FLASH_ATTN`: Boolean flag to enable flash attention mechanism for faster processing on supported hardware
+- `MODEL_NAME`: Name of the model to load (no -GGUF suffix, defaults to local/server mode below)
+- `MODEL_QUANTIZATION`: Full quantization specification (default: Q4_K_M for local, Q5_K_M for server)
+- `HOST`: Network interface address to bind the server to (default: 127.0.0.1 for local, 0.0.0.0 for server)
+- `PORT`: Network port for the server to listen on for incoming connections (default: 8081 for coder, 8082 for advisor, 8080 for WebUI)
+- `ALIAS`: Custom name to register the model with llama-server (default: jzaleski/coder or jzaleski/advisor)
+- `FLASH_ATTN`: Boolean flag to enable flash attention mechanism for faster processing on supported hardware (default: on)
 - `N_GPU_LAYERS`: Number of layers to offload to GPU (-1 for all layers, default: -1)
+- `CTX_SIZE`: Maximum number of tokens the model can process in a single context window (default: 65536)
+- `MIN_P`: Threshold for nucleus sampling to exclude low-probability tokens (0.0-1.0)
+- `REPEAT_PENALTY`: Factor applied to penalize repeated tokens (1.0 is no penalty)
+- `TEMP`: Controls randomness and creativity in model responses
+- `TOP_K`: Limit on the number of most likely tokens to consider during generation (0 or 0.0 disables top-k sampling)
+- `TOP_P`: Controls nucleus sampling - cumulative probability threshold for token selection (0.95 default)
 
 ## Components
 
@@ -114,8 +113,9 @@ Starts Open WebUI interface using Docker. Supports both local and server modes v
 - Uses advisor model on port 8082
 
 **Environment Variables:**
-- `WEBUI_AUTH`: Enable authentication in WebUI (default: False)
+- `WEBUI_AUTH`: Enable authentication in WebUI (default: False for local, True for server)
 - `ADVISOR_MODEL_PORT`: Custom advisor model port (default: 8082)
+- `IMAGE`: Docker image to use (default: ghcr.io/open-webui/open-webui:main)
 
 ## Usage
 
