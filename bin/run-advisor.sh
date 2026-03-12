@@ -21,7 +21,7 @@ run_local() {
 
 run_server() {
   llama-server \
-    -hf "${MODEL_PROVIDER:-"unsloth"}/${MODEL_NAME:-"Qwen3.5-122B-A10B"}-GGUF:${MODEL_QUANTIZATION:-"Q5_K_M"}" \
+    -hf "${MODEL_PROVIDER:-"unsloth"}/${MODEL_NAME:-"gpt-oss-120b"}-GGUF:${MODEL_QUANTIZATION:-"Q5_K_M"}" \
     --alias "${ALIAS:-"jzaleski/advisor"}" \
     --host "${HOST:-"0.0.0.0"}" \
     --port "${PORT:-"8082"}" \
@@ -32,8 +32,8 @@ run_server() {
     --min-p "${MIN_P:-"0.0"}" \
     --repeat-penalty ${REPEAT_PENALTY:-"1.0"} \
     --temp "${TEMP:-"1.0"}" \
-    --top-k "${TOP_K:-"20"}" \
-    --top-p "${TOP_P:-"0.95"}";
+    --top-k "${TOP_K:-"0.0"}" \
+    --top-p "${TOP_P:-"1.0"}";
 }
 
 # Default to local mode if no flag provided
